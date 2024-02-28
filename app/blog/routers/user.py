@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from blog import database, schemas, models
+from .. import database, schemas, models, oauth2
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, status
-from blog.repository import user
+from ..repository import user
 
 router = APIRouter(
     prefix="/user",
@@ -20,3 +20,7 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
 @router.get('/{id}', response_model=schemas.ShowUser)
 def get_user(id: int, db: Session = Depends(get_db)):
     return user.show(id, db)
+
+@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def destroy(id: int, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
+    return user.destroy(id, db)
