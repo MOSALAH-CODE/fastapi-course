@@ -19,17 +19,17 @@ def all(db: Session = Depends(get_db), current_user: schemas.User = Depends(oaut
 
 @router.post('/', status_code=status.HTTP_201_CREATED,)
 def create(request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-    return blog.create(request, db)
+    return blog.create(request, current_user, db)
 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def destroy(id: int, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-    return blog.destroy(id, db)
+    return blog.destroy(id, current_user, db)
 
 
 @router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
 def update(id: int, request: schemas.Blog, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-    return blog.update(id, request, db)
+    return blog.update(id, request, current_user, db)
 
 
 @router.get('/{id}', status_code=200, response_model=schemas.ShowBlog)
