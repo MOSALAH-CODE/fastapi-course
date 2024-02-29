@@ -8,3 +8,5 @@ python-multipart
 PyJWT
 pydantic[email]
 redis
+pytest
+httpx

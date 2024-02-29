@@ -17,6 +17,9 @@ app.include_router(authentication.router)
 app.include_router(blog.router)
 app.include_router(user.router)
 
+@app.get("/")
+async def read_main():
+    return {"msg": "Hello World"}
 
 # @app.get('/test')
 # def  test():
